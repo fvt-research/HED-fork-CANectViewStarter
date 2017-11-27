@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+
+    <ion-title>Live Data</ion-title>
+
+  </ion-navbar>
+</ion-header>
+
+<ion-content no-bounce>
+    <ion-item-group>
+        <ion-list>
+            <ion-list-header sticky>
+                <ion-grid>
+                    <ion-row>
+                        <ion-col col-7 text-left (click)="setOrderBy('name')" [ngClass]="{'selected' : order == 'name'}">Name</ion-col>
+                        <ion-col col-3 text-right (click)="setOrderBy('value')" [ngClass]="{'selected' : order == 'value'}">Value</ion-col>
+                        <ion-col col-2 text-left (click)="setOrderBy('unit')" [ngClass]="{'selected' : order == 'unit'}">Unit</ion-col>
+                    </ion-row>
+                </ion-grid>
+            </ion-list-header>
+
+            <ion-item *ngFor="let param of liveDataParameters | orderBy:order:reverse">
+                <ion-grid>
+                    <ion-row>
+                        <ion-col col-7 text-left>{{ param.name }}</ion-col>
+                        <ion-col col-3 text-right>{{ param.value }}</ion-col>
+                        <ion-col col-2 text-left>{{ param.units }}</ion-col>
+                    </ion-row>
+                </ion-grid>
+            </ion-item>
+        </ion-list>
+    </ion-item-group>
+</ion-content>
