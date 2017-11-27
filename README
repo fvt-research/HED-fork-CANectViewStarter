@@ -1,0 +1,15 @@
+Requirements:
+- node.js/npm
+- ionic cli
+
+Install:
+npm install
+
+Development:
+ionic serve
+
+Building:
+npm run build --prod
+
+Issues installing?
+Try "npm cache verify"
