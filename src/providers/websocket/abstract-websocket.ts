@@ -1,4 +1,5 @@
 import { Subject } from 'rxjs/Subject';
+import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { $WebSocket, WebSocketSendMode, WebSocketConfig } from 'angular2-websocket/angular2-websocket';
 
 import { ENV } from '@app/env';
@@ -22,6 +23,7 @@ abstract class AbstractWebSocket
 	public onOpen:Subject<any> = new Subject<any>();
 	public onClose:Subject<any> = new Subject<any>();
 	public messages:Subject<any> = new Subject<any>();
+	public connected:ReplaySubject<boolean> = new ReplaySubject<boolean>(1);
 
 	public connect():this
 	{
@@ -39,11 +41,15 @@ abstract class AbstractWebSocket
 		// Set the send mode
 		this.socket.setSend4Mode(WebSocketSendMode.Direct);
 
+		// onOpen event handler
 		this.socket.onOpen((e) => {
+			this.connected.next(true);
 			this.onOpen.next(e);
 		});
 
+		// onClose event handler
 		this.socket.onClose((e) => {
+			this.connected.next(false);
 			this.rawJsonData = '';
 			this.onClose.next(e);
 		});
@@ -97,15 +103,6 @@ abstract class AbstractWebSocket
 	}
 
 	protected abstract digestParsedMessage(msg:any):void;
-
-	public get connected():boolean
-	{
-		if (this.socket) {
-			return this.socket.getReadyState() == WebSocket.OPEN;
-		}
-
-		return false;
-	}
 
 	public send(msg:any):void
 	{

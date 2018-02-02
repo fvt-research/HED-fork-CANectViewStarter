@@ -1,25 +1,57 @@
 import { Component, ViewChild } from '@angular/core';
 import { Nav } from 'ionic-angular';
 
-import { HomePage, LiveDataPage } from '../pages';
+// Import application pages
+import { HomePage, LiveDataPage, LogFilesPage, AccelerometerPage } from '../pages';
+
+// Import VPCA Web Socket interface
+import { VpcaWebSocket, ChatWebSocket } from '../providers';
+
+// Page interface
+interface Page
+{
+    title: string;
+    component: any;
+}
 
 @Component({
   templateUrl: 'app.html'
 })
 export class MyApp
 {
+    // Instance of the navigation in the template
     @ViewChild(Nav) nav: Nav;
 
-    rootPage: any = HomePage;
+    // Define our root page
+    public rootPage: any = HomePage;
 
-    public pages: Array<{title: string, component: any}> = [
+    // Array of pages to display in the sidemenu
+    public sideMenuItems: Array<Page> = [
         { title: 'Home', component: HomePage },
-        { title: 'Live System Data', component: LiveDataPage }
+        { title: 'Log Files', component: LogFilesPage },
+        { title: 'Live System Data', component: LiveDataPage },
+        { title: 'Accelerometer', component: AccelerometerPage }
     ];
 
-    public constructor() {}
+    /**
+     * App component constructor
+     *
+     * Called once when the application loads
+     */
+    public constructor(vpca: VpcaWebSocket, chat: ChatWebSocket)
+    {
+        // Open the connection to VPCA Web Socket
+        vpca.connect();
+        // Open the connection to CHAT Web Socket
+        chat.connect();
+    }
 
-    public openPage(page)
+    /**
+     * openPage
+     *
+     * Called from app.html whenever a user clicks a sidemenu item
+     */
+    public openPage(page:Page)
     {
         this.nav.setRoot(page.component);
     }

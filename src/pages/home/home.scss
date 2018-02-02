@@ -1,3 +1,44 @@
 page-home {
+	.content {
+		.scroll-content {
+			background-color:#eee;
+		}
+	}
 
+	.toolbar-title {
+		padding-left: 0;
+		padding-top: 3px;
+		img {
+			width:100px;
+		}
+	}
+	.grid {
+		padding:0;
+	}
+
+	h2 {
+		font-weight:bold;
+		color: color($colors, primary) !important;
+	}
+	.pages-row {
+		ion-card {
+			height: 95%;
+		}
+	}
+
+	ion-icon.page-icon {
+		font-size: 60px;
+	}
+
+	ion-row {
+		height: 100%;
+		flex-wrap: wrap;
+	}
+
+	ion-col {
+		flex: 0 0 25%;
+		max-width: 25%;
+		text-align: center;
+		padding: 10px 5px;
+	}
 }

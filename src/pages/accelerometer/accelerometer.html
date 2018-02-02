@@ -1,0 +1,56 @@
+<ion-header>
+    <ion-navbar>
+        <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-title>Accelerometer</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+	<ion-card>
+		<ion-card-header>
+			Acceleration
+		</ion-card-header>
+		<hr>
+		<ion-card-content>
+			<ion-list>
+				<ion-item>
+					Sway
+					<span item-right>{{ accelSway }} m/s²</span>
+				</ion-item>
+				<ion-item>
+					Surge
+					<span item-right>{{ accelSurge }} m/s²</span>
+				</ion-item>
+				<ion-item>
+					Heave
+					<span item-right>{{ accelHeave }} m/s²</span>
+				</ion-item>
+			</ion-list>
+		</ion-card-content>
+	</ion-card>
+
+	<ion-card>
+		<ion-card-header>
+			Tilt
+		</ion-card-header>
+		<hr>
+		<ion-card-content>
+			<ion-list>
+				<ion-item>
+					Roll
+					<span item-right>{{ tiltRoll }}°</span>
+				</ion-item>
+				<ion-item>
+					Pitch
+					<span item-right>{{ tiltPitch }}°</span>
+				</ion-item>
+				<ion-item>
+					Yaw
+					<span item-right>{{ tiltYaw }}°</span>
+				</ion-item>
+			</ion-list>
+		</ion-card-content>
+	</ion-card>
+</ion-content>

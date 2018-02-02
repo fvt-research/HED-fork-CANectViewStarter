@@ -1,11 +1,20 @@
+/* tslint:disable */
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
+import { Observable } from 'rxjs/Observable';
 import { Http } from '@angular/http';
 
 import { ENV } from '@app/env';
 
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/timeout';
+
+// Enumeration of API endpoints
+const enum API_ENDPOINTS
+{
+	DEMO = 'demo.php',
+	LOG_FILES = 'log-files.php'
+}
 
 @Injectable()
 export class RestProvider
@@ -14,31 +23,20 @@ export class RestProvider
 
 	public getLogFiles()
 	{
-		return this.getRequest(this.buildUrl('logs'));
+		return this.getRequest(this.buildUrl(API_ENDPOINTS.LOG_FILES)).timeout(5000);
 	}
 
-	private deleteRequest(url:string):Promise<any>
+	private getRequest(url:string):Observable<any>
 	{
-		return new Promise((resolve, reject) => {
-			this.http.delete(url)
-				.map(res => res.json())
-				.subscribe(
-					data => resolve(data),
-					error => reject(error)
-				);
-		});
+		return this.http.get(url)
+			.map(res => res.json())
+			.catch((error:any) => Observable.throw(this.handleRequestError(error)));
 	}
 
-	private getRequest(url:string):Promise<any>
+	private handleRequestError(error)
 	{
-		return new Promise((resolve, reject) => {
-			this.http.get(url)
-				.map(res => res.json())
-				.subscribe(
-					data => resolve(data),
-					error => reject(error)
-				);
-		});
+		console.warn(`RestProvider.handleRequestError: ${error}`);
+		return error;
 	}
 
 	private buildUrl(path:string)
