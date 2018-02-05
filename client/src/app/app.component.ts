@@ -17,7 +17,7 @@ interface Page
 @Component({
   templateUrl: 'app.html'
 })
-export class MyApp
+export class CANectViewApp
 {
     // Instance of the navigation in the template
     @ViewChild(Nav) nav: Nav;
