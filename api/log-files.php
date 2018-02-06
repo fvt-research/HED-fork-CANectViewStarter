@@ -2,6 +2,7 @@
 
 const LOG_FILE_PATH = '/mnt/internal_storage/log/';
 
+// Helper functions
 function url($path='', $is_api=true) {
 	$scheme = 'http';
 	if (isset($_SERVER['REQUEST_SCHEME'])) {
@@ -16,7 +17,7 @@ function url($path='', $is_api=true) {
 	return $scheme . '://' . $_SERVER['HTTP_HOST'] . $base_path . $path;
 }
 
-function get_filesize($file) {
+function filesize_display($file) {
 	$size = filesize($file);
 	if ($size < 1024) {
 		$size .= " B";
@@ -30,6 +31,7 @@ function get_filesize($file) {
 	return $size;
 }
 
+// Create initial empty array
 $log_files = [];
 
 // Check if directory exists
@@ -49,7 +51,7 @@ if (is_dir(LOG_FILE_PATH)) {
                 // Build out file meta
                 $log_files[] = [
                     'raw_name'          =>  $file,
-                    'size_display'      =>  get_filesize($file_w_path),
+                    'size_display'      =>  filesize_display($file_w_path),
                     'size_actual'       =>  filesize($file_w_path),
                     'date_modified_raw' =>  filemtime($file_w_path),
                     'date_modified'     =>  date("M j Y g:i A", filemtime($file_w_path)),
@@ -58,7 +60,9 @@ if (is_dir(LOG_FILE_PATH)) {
             }
         }
 
+        // Close the directory
         closedir($dh);
+
         // Sort by actual date
         usort($log_files, function($a, $b) {
             return $b['date_modified_raw'] - $a['date_modified_raw'];
@@ -66,6 +70,8 @@ if (is_dir(LOG_FILE_PATH)) {
     }
 }
 
-header('Access-Control-Allow-Origin: *');
-header('Content: application/json');
+// required headers
+header("Access-Control-Allow-Origin: *");
+header("Content-Type: application/json; charset=UTF-8");
+
 echo json_encode(['files' => $log_files]);

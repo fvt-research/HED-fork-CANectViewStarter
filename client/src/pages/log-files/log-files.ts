@@ -1,26 +1,23 @@
 import { Component } from '@angular/core';
-import { LoadingController } from 'ionic-angular';
+import { LoadingController, AlertController } from 'ionic-angular';
 
 // Import the REST API Provider
 import { RestProvider } from '../../providers';
 
 // Expose the "InputEvent" class
-declare var InputEvent:any;
+declare const InputEvent:any;
 
 @Component({
   selector: 'page-log-files',
-  templateUrl: 'log-files.html',
+  templateUrl: 'log-files.html'
 })
 export class LogFilesPage
 {
 	// Attribute used to display log files
 	public rows:Array<any> = [];
 
-	// Attribute to store ALL log files
-	public logFiles:Array<any> = [];
-
-	// Flat to indicate if an error occured
-	public errorFetching:boolean = false;
+	// Private attribute to store ALL log files
+	private logFiles:Array<any> = [];
 
 	// Flag to indicate first load
 	public initialLoad:boolean = true;
@@ -30,7 +27,13 @@ export class LogFilesPage
 	 *
 	 * Used to "inject" any dependencies and run any setup logic
 	 */
-	public constructor(private rest: RestProvider, private loadingCtrl: LoadingController) {}
+	public constructor(
+		private rest: RestProvider,
+		private loadingCtrl: LoadingController,
+		private alertCtrl: AlertController
+	) {
+		// Any custom initialization logic here
+	}
 
 	/**
 	 * ionViewWillEnter
@@ -98,7 +101,18 @@ export class LogFilesPage
 		// Called on request error
 		const error = (error) => {
 			// Catch the request error
-			this.errorFetching = true;
+			// Present an error alert
+			this.alertCtrl.create({
+				title : 'Error',
+				message: 'Unable to fetch log files',
+				buttons: [
+					{
+						text: 'OK',
+						role: 'cancel'
+					}
+				]
+			}).present();
+
 			complete();
 		};
 

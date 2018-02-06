@@ -1,16 +1,21 @@
 <ion-header>
     <ion-navbar>
+
         <button ion-button menuToggle>
             <ion-icon name="menu"></ion-icon>
         </button>
+
         <ion-title>Log Files</ion-title>
+
         <ion-buttons end>
+
 			<!-- Button to reload the log files.  Example of how to bind to a click -->
         	<button ion-button icon-only (click)="requestLogFiles()">
         		<ion-icon name="refresh"></ion-icon>
         	</button>
 
         </ion-buttons>
+
     </ion-navbar>
 </ion-header>
 
@@ -40,7 +45,7 @@
 	</ion-list>
 
 	<!-- Show when no log files are found and not the initial load -->
-	<ion-card *ngIf="!rows.length && !initialLoad && !errorFetching">
+	<ion-card *ngIf="!rows.length && !initialLoad">
 
 		<ion-card-header>
 			<h2>
@@ -53,20 +58,4 @@
 		</ion-card-content>
 
 	</ion-card>
-
-	<!-- Show when there are no rows, its not the first load, and an error occurred -->
-	<ion-card *ngIf="!rows.length && !initialLoad && errorFetching">
-
-		<ion-card-header>
-			<h2>
-				<b>Error</b>
-			</h2>
-		</ion-card-header>
-
-		<ion-card-content>
-			<p>An error occurred getting the log files</p>
-		</ion-card-content>
-
-	</ion-card>
-
 </ion-content>
