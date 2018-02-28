@@ -1,17 +1,19 @@
 var path = require('path');
 var defaultConfig = require('@ionic/app-scripts/config/webpack.config.js');
 
-module.exports = function () {
-	let envFile = './src/environments/environment.ts';
-	if (process.env.IONIC_ENV == 'prod') {
-		envFile = './src/environments/environment.prod.ts';
-	}
+const DEV_ENV  = './src/environments/environment.ts';
+const PROD_ENV = './src/environments/environment.prod.ts';
 
-	const alias = {
-		"@app/env" : path.resolve(envFile)
-	};
-	defaultConfig.dev.resolve.alias = alias;
-	defaultConfig.prod.resolve.alias = alias;
+const devAlias = {
+	"@app/env" : path.resolve(DEV_ENV)
+};
+const prodAlias = {
+	"@app/env" : path.resolve(PROD_ENV)
+};
+
+module.exports = function () {
+	defaultConfig.dev.resolve.alias  = devAlias;
+	defaultConfig.prod.resolve.alias = prodAlias;
 
 	return defaultConfig;
 };

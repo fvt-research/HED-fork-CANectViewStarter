@@ -3,6 +3,7 @@
   "author": "HED",
   "private": true,
   "scripts": {
+    "prod": "npm run build --prod && node ./scripts/cache-bust.js",
     "clean": "ionic-app-scripts clean",
     "build": "ionic-app-scripts build",
     "lint": "ionic-app-scripts lint",
